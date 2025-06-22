@@ -6,12 +6,12 @@ import Foundation
 /**
  * @author Yuvraj Singh
  */
-enum JsonException: Error, LocalizedError {
+public enum JsonException: Error, LocalizedError {
     case encodingError(Error)
     case decodingError(Error)
     case conversionError(Error)
     
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         case .encodingError(let error):
             return "Could not encode: \(error.localizedDescription)"
@@ -26,17 +26,17 @@ enum JsonException: Error, LocalizedError {
 /**
  * @author Yuvraj Singh
  */
-protocol Json {
-    func encode(_ object: Any) throws -> String
-    func decode<T: Decodable>(_ json: String, as type: T.Type) throws -> T
-    func convert<T: Decodable>(_ object: Any, to type: T.Type) throws -> T
-    static func create() -> Json
+public protocol Json {
+    public func encode(_ object: Any) throws -> String
+    public func decode<T: Decodable>(_ json: String, as type: T.Type) throws -> T
+    public func convert<T: Decodable>(_ object: Any, to type: T.Type) throws -> T
+    public static func create() -> Json
 }
 
 /**
  * @author Yuvraj Singh
  */
-class DefaultJson: Json {
+public class DefaultJson: Json {
     private let encoder = JSONEncoder()
     private let decoder: JSONDecoder
     
@@ -46,7 +46,7 @@ class DefaultJson: Json {
         self.decoder = decoder
     }
     
-    func encode(_ object: Any) throws -> String {
+    public func encode(_ object: Any) throws -> String {
         guard let encodable = object as? Encodable else {
             throw JsonException.encodingError(NSError(domain: "Not Encodable", code: 0))
         }
@@ -61,7 +61,7 @@ class DefaultJson: Json {
         }
     }
     
-    func decode<T: Decodable>(_ json: String, as type: T.Type) throws -> T {
+    public func decode<T: Decodable>(_ json: String, as type: T.Type) throws -> T {
         guard let data = json.data(using: .utf8) else {
             throw JsonException.decodingError(NSError(domain: "Invalid UTF-8", code: 0))
         }
@@ -72,7 +72,7 @@ class DefaultJson: Json {
         }
     }
     
-    func convert<T: Decodable>(_ object: Any, to type: T.Type) throws -> T {
+    public func convert<T: Decodable>(_ object: Any, to type: T.Type) throws -> T {
         do {
             let json = try encode(object)
             return try decode(json, as: type)
@@ -81,7 +81,7 @@ class DefaultJson: Json {
         }
     }
     
-    static func create() -> Json {
+    public static func create() -> Json {
         return DefaultJson()
     }
 }
