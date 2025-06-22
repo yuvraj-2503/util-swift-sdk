@@ -40,7 +40,7 @@ public class DefaultJson: Json {
     private let encoder = JSONEncoder()
     private let decoder: JSONDecoder
     
-    init() {
+    public init() {
         let decoder = JSONDecoder()
         // Swift's JSONDecoder ignores unknown properties by default
         self.decoder = decoder
