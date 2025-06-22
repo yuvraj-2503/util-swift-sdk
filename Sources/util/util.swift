@@ -27,10 +27,10 @@ public enum JsonException: Error, LocalizedError {
  * @author Yuvraj Singh
  */
 public protocol Json {
-    public func encode(_ object: Any) throws -> String
-    public func decode<T: Decodable>(_ json: String, as type: T.Type) throws -> T
-    public func convert<T: Decodable>(_ object: Any, to type: T.Type) throws -> T
-    public static func create() -> Json
+    func encode(_ object: Any) throws -> String
+    func decode<T: Decodable>(_ json: String, as type: T.Type) throws -> T
+    func convert<T: Decodable>(_ object: Any, to type: T.Type) throws -> T
+    static func create() -> Json
 }
 
 /**
