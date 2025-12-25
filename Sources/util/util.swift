@@ -21,6 +21,7 @@ public enum JsonException: Error, LocalizedError {
             return "Could not convert: \(error.localizedDescription)"
         }
     }
+    
 }
 
 /**
